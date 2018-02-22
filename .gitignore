@@ -100,5 +100,8 @@ ENV/
 # mypy
 .mypy_cache/
 
-#Pythoscope
+# Pythoscope
 .pythoscope/
+
+# Generated db files
+*.db
