@@ -1,0 +1,220 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>evecli &#8212; EveCli 0.0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for evecli</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="kn">import</span> <span class="nn">sqlite3</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">esipy</span> <span class="k">import</span> <span class="n">App</span>
+<span class="kn">from</span> <span class="nn">esipy</span> <span class="k">import</span> <span class="n">EsiClient</span>
+
+<span class="sd">&quot;&quot;&quot;Script for capturing data from ESI API (EVE Online)</span>
+
+<span class="sd">Example:</span>
+<span class="sd">    	::</span>
+
+<span class="sd">        $ python evecli.py</span>
+
+<span class="sd">Todo:</span>
+<span class="sd">    * For module TODOs</span>
+<span class="sd">    * You have to also use ``sphinx.ext.todo`` extension</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">goods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Tritanium&quot;</span><span class="p">,</span> <span class="s2">&quot;Pyerite&quot;</span><span class="p">,</span> <span class="s2">&quot;Mexallon&quot;</span><span class="p">,</span> <span class="s2">&quot;Isogen&quot;</span><span class="p">,</span> <span class="s2">&quot;Nocxium&quot;</span><span class="p">,</span> <span class="s2">&quot;Oxygen&quot;</span><span class="p">]</span>
+<span class="sd">&quot;&quot;&quot;list: List of trading goods.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">regions</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Metropolis&quot;</span><span class="p">,</span> <span class="s2">&quot;Heimatar&quot;</span><span class="p">,</span> <span class="s2">&quot;Molden Heath&quot;</span><span class="p">,</span> <span class="s2">&quot;Derelik&quot;</span><span class="p">,</span> <span class="s2">&quot;Curse&quot;</span><span class="p">]</span>
+<span class="sd">&quot;&quot;&quot;list: List of regions.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">App</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;https://esi.tech.ccp.is/latest/swagger.json?datasource=tranquility&quot;</span><span class="p">)</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">EsiClient</span><span class="p">(</span>
+    <span class="n">retry_requests</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">header</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;User-Agent&#39;</span><span class="p">:</span> <span class="s1">&#39;Still Console Marcet Client&#39;</span><span class="p">},</span>
+    <span class="n">raw_body_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;eve.db&#39;</span><span class="p">)</span>
+<span class="n">today</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
+<span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+
+<div class="viewcode-block" id="g_id"><a class="viewcode-back" href="../index.html#evecli.g_id">[docs]</a><span class="k">def</span> <span class="nf">g_id</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Internal function. Returns a response from ESI API with an inventory_type value.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        name (str): Region name.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        Data with goods type id.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">gid</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">op</span><span class="p">[</span><span class="s1">&#39;get_search&#39;</span><span class="p">](</span>
+        <span class="n">categories</span><span class="o">=</span><span class="s2">&quot;inventory_type&quot;</span><span class="p">,</span>
+        <span class="n">search</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+        <span class="n">language</span><span class="o">=</span><span class="s2">&quot;ru&quot;</span><span class="p">,</span>
+        <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+        <span class="p">)</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">gid</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">inventory_type</span>
+
+<div class="viewcode-block" id="sql_goods"><a class="viewcode-back" href="../index.html#evecli.sql_goods">[docs]</a><span class="k">def</span> <span class="nf">sql_goods</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; The function of searching inventory_type for each item of the goods list.</span>
+<span class="sd">    The internal function ``g_id(name)`` is called, which returns a response from ESI API with an inventory_type value.</span>
+<span class="sd">    Writes this value to sqlite. If there is such a record in the database - ignore.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        name (str): Goods name.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;CREATE TABLE if not exists goods (good_name text, good_id long, UNIQUE(good_name, good_id))&#39;</span><span class="p">)</span>
+    <span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM goods WHERE good_name = ?&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">name</span><span class="p">,))</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;INSERT OR IGNORE INTO goods(good_name, good_id) values (? , ?)&#39;</span><span class="p">,</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">g_id</span><span class="p">(</span><span class="n">name</span><span class="p">))])</span>
+    <span class="k">else</span><span class="p">:</span></div>
+        <span class="k">pass</span>
+
+<div class="viewcode-block" id="r_id"><a class="viewcode-back" href="../index.html#evecli.r_id">[docs]</a><span class="k">def</span> <span class="nf">r_id</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Internal function. Returns a response from ESI API with an region value.</span>
+<span class="sd">        </span>
+<span class="sd">    Args:</span>
+<span class="sd">        name (str): Region name.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        Data with region id.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">rid</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">op</span><span class="p">[</span><span class="s1">&#39;get_search&#39;</span><span class="p">](</span>
+        <span class="n">categories</span><span class="o">=</span><span class="s2">&quot;region&quot;</span><span class="p">,</span>
+        <span class="n">search</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+        <span class="n">language</span><span class="o">=</span><span class="s2">&quot;ru&quot;</span><span class="p">,</span>
+        <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">rid</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">region</span>
+
+<div class="viewcode-block" id="sql_region"><a class="viewcode-back" href="../index.html#evecli.sql_region">[docs]</a><span class="k">def</span> <span class="nf">sql_region</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; The function of searching region for each item of the regions list.</span>
+<span class="sd">    The internal function ``r_id(name)`` is called, which returns a response from ESI API with an region value.</span>
+<span class="sd">    Writes this value to sqlite. If there is such a record in the database - ignore.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        name (str): Region name.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;CREATE TABLE if not exists regions (region_name text, region_id int, UNIQUE(region_name, region_id))&#39;</span><span class="p">)</span>
+    <span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM regions WHERE region_name = ?&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">name</span><span class="p">,))</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;INSERT OR IGNORE INTO regions(region_name, region_id) values (? , ?)&#39;</span><span class="p">,</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">r_id</span><span class="p">(</span><span class="n">name</span><span class="p">))])</span>
+    <span class="k">else</span><span class="p">:</span></div>
+        <span class="k">pass</span>
+<div class="viewcode-block" id="orders"><a class="viewcode-back" href="../index.html#evecli.orders">[docs]</a><span class="k">def</span> <span class="nf">orders</span><span class="p">(</span><span class="n">region</span><span class="p">,</span><span class="n">good</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Orgers pickup from ESI API</span>
+<span class="sd">    All orders are placed to SQL DB for later usage.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        region (str): Region id.</span>
+<span class="sd">        good (str): Goods id.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;CREATE TABLE if not exists orders(volume_remain long,type_id long,order_id int,issued datetime,price int,min_volume int,is_buy_order text,range int,duration int,volume_total int,location_id text, region_id int, UNIQUE(order_id))&#39;</span><span class="p">)</span>
+    <span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;SELECT region_id FROM regions WHERE region_name = ?&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">region</span><span class="p">,))</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+    <span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;SELECT good_id FROM goods WHERE good_name = ?&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">good</span><span class="p">,))</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">op</span><span class="p">[</span><span class="s1">&#39;get_markets_region_id_orders&#39;</span><span class="p">](</span>
+        <span class="n">region_id</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="n">type_id</span><span class="o">=</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="p">)</span>
+    <span class="n">orders</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">i</span><span class="o">=</span><span class="mi">0</span>
+    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">orders</span><span class="o">.</span><span class="n">data</span><span class="p">):</span>
+        <span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;INSERT OR IGNORE INTO orders(volume_remain, type_id, order_id, issued, price, min_volume, is_buy_order, range, duration, volume_total, location_id, region_id) values (? , ? , ?, ? , ? , ? , ? , ? , ? , ? , ? , ?)&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">orders</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">volume_remain</span><span class="p">,</span> <span class="n">orders</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">type_id</span><span class="p">,</span> <span class="n">orders</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">order_id</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">orders</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">issued</span><span class="p">),</span> <span class="n">orders</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">price</span><span class="p">,</span> <span class="n">orders</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">min_volume</span><span class="p">,</span> <span class="n">orders</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">is_buy_order</span><span class="p">,</span> <span class="n">orders</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">range</span><span class="p">,</span> <span class="n">orders</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">duration</span><span class="p">,</span> <span class="n">orders</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">volume_total</span><span class="p">,</span> <span class="n">orders</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">location_id</span><span class="p">,</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+        <span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;UPDATE orders SET volume_remain = ?, type_id = ?, issued = ?, price = ?, min_volume = ?, is_buy_order = ?, range = ?, duration = ?, volume_total = ?, location_id = ?, region_id = ? WHERE order_id = ?&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">orders</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">volume_remain</span><span class="p">,</span> <span class="n">orders</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">type_id</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">orders</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">issued</span><span class="p">),</span> <span class="n">orders</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">price</span><span class="p">,</span> <span class="n">orders</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">min_volume</span><span class="p">,</span> <span class="n">orders</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">is_buy_order</span><span class="p">,</span> <span class="n">orders</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">range</span><span class="p">,</span> <span class="n">orders</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">duration</span><span class="p">,</span> <span class="n">orders</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">volume_total</span><span class="p">,</span> <span class="n">orders</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">location_id</span><span class="p">,</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">orders</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">order_id</span><span class="p">])</span></div>
+        <span class="n">i</span><span class="o">+=</span><span class="mi">1</span>
+<span class="n">i</span><span class="o">=</span><span class="mi">0</span>
+<span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">regions</span><span class="p">):</span>
+    <span class="n">sql_region</span><span class="p">(</span><span class="n">regions</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="n">i</span><span class="o">=</span><span class="mi">0</span>
+<span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">goods</span><span class="p">):</span>
+    <span class="n">sql_goods</span><span class="p">(</span><span class="n">goods</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">goods</span><span class="p">)):</span>
+    <span class="nb">print</span> <span class="n">goods</span><span class="p">[</span><span class="n">g</span><span class="p">],</span> <span class="s2">&quot;workin!&quot;</span>
+    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">regions</span><span class="p">)):</span>
+        <span class="n">orders</span><span class="p">(</span><span class="n">regions</span><span class="p">[</span><span class="n">r</span><span class="p">],</span><span class="n">goods</span><span class="p">[</span><span class="n">g</span><span class="p">])</span>
+<span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+<span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Steve Illichevskiy.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

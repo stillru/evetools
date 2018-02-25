@@ -1,0 +1,198 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Welcome to EveCli’s documentation! &#8212; EveCli 0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="welcome-to-evecli-s-documentation">
+<h1>Welcome to EveCli’s documentation!<a class="headerlink" href="#welcome-to-evecli-s-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<span class="target" id="module-evecli"></span><dl class="function">
+<dt id="evecli.g_id">
+<code class="descclassname">evecli.</code><code class="descname">g_id</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evecli.html#g_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#evecli.g_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Internal function. Returns a response from ESI API with an inventory_type value.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Region name.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Data with goods type id.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="data">
+<dt id="evecli.goods">
+<code class="descclassname">evecli.</code><code class="descname">goods</code><em class="property"> = ['Tritanium', 'Pyerite', 'Mexallon', 'Isogen', 'Nocxium', 'Oxygen']</em><a class="headerlink" href="#evecli.goods" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>list</em> – List of trading goods.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="evecli.orders">
+<code class="descclassname">evecli.</code><code class="descname">orders</code><span class="sig-paren">(</span><em>region</em>, <em>good</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evecli.html#orders"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#evecli.orders" title="Permalink to this definition">¶</a></dt>
+<dd><p>Orgers pickup from ESI API
+All orders are placed to SQL DB for later usage.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>region</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Region id.</li>
+<li><strong>good</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Goods id.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="evecli.r_id">
+<code class="descclassname">evecli.</code><code class="descname">r_id</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evecli.html#r_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#evecli.r_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Internal function. Returns a response from ESI API with an region value.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Region name.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Data with region id.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="data">
+<dt id="evecli.regions">
+<code class="descclassname">evecli.</code><code class="descname">regions</code><em class="property"> = ['Metropolis', 'Heimatar', 'Molden Heath', 'Derelik', 'Curse']</em><a class="headerlink" href="#evecli.regions" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>list</em> – List of regions.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="evecli.sql_goods">
+<code class="descclassname">evecli.</code><code class="descname">sql_goods</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evecli.html#sql_goods"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#evecli.sql_goods" title="Permalink to this definition">¶</a></dt>
+<dd><p>The function of searching inventory_type for each item of the goods list.
+The internal function <code class="docutils literal notranslate"><span class="pre">g_id(name)</span></code> is called, which returns a response from ESI API with an inventory_type value.
+Writes this value to sqlite. If there is such a record in the database - ignore.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Goods name.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="evecli.sql_region">
+<code class="descclassname">evecli.</code><code class="descname">sql_region</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evecli.html#sql_region"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#evecli.sql_region" title="Permalink to this definition">¶</a></dt>
+<dd><p>The function of searching region for each item of the regions list.
+The internal function <code class="docutils literal notranslate"><span class="pre">r_id(name)</span></code> is called, which returns a response from ESI API with an region value.
+Writes this value to sqlite. If there is such a record in the database - ignore.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Region name.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Welcome to EveCli’s documentation!</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Steve Illichevskiy.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
