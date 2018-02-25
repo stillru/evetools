@@ -1,0 +1,125 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2018, Steve Illichevskiy
+# This file is distributed under the same license as the EveCli package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: EveCli \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-02-25 18:06+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.5.3\n"
+
+#: ../../source/index.rst:7
+msgid "Welcome to EveCli's documentation!"
+msgstr "Документация по EveCli"
+
+#: ../../source/index.rst:9
+msgid "Project to study Python and best practices ^-)"
+msgstr "Проект по изучению языка програмирования Python и луших практик :-)"
+
+#: evecli.g_id:1 of
+msgid ""
+"Internal function. Returns a response from ESI API with an inventory_type"
+" value."
+msgstr "Функция. Возвращает id товара."
+
+#: evecli.g_id evecli.orders evecli.r_id evecli.sql_goods evecli.sql_region of
+msgid "Parameters"
+msgstr "Параметры"
+
+#: evecli.g_id:3 evecli.r_id:3 evecli.sql_region:5 of
+msgid "Region name."
+msgstr "Название региона"
+
+#: evecli.g_id evecli.r_id of
+msgid "Returns"
+msgstr "Возвращает"
+
+#: evecli.g_id:6 of
+msgid "Data with goods type id."
+msgstr "Данные с id товара"
+
+#: evecli.goods:1 of
+msgid "*list* -- List of trading goods."
+msgstr "*list* -- Список товаров."
+
+#: evecli.orders:1 of
+msgid ""
+"Orgers pickup from ESI API All orders are placed to SQL DB for later "
+"usage."
+msgstr ""
+"Заказы из заданных регионов, заданных товаров сохраняются в БД для "
+"дальнейшего использования."
+
+#: evecli.orders:4 of
+#, fuzzy
+msgid "Region id."
+msgstr "id региона"
+
+#: evecli.orders:6 of
+#, fuzzy
+msgid "Goods id."
+msgstr "id товара"
+
+#: evecli.r_id:1 of
+msgid "Internal function. Returns a response from ESI API with an region value."
+msgstr "Функция. Возвращает id региона."
+
+#: evecli.r_id:6 of
+msgid "Data with region id."
+msgstr "id региона"
+
+#: evecli.regions:1 of
+msgid "*list* -- List of regions."
+msgstr "*list* -- Список регионов."
+
+#: evecli.sql_goods:1 of
+msgid ""
+"The function of searching inventory_type for each item of the goods list."
+" The internal function ``g_id(name)`` is called, which returns a response"
+" from ESI API with an inventory_type value. Writes this value to sqlite. "
+"If there is such a record in the database - ignore."
+msgstr ""
+"Функция поиска inventory_type в ESI API. Вызывается внутренняя функция "
+"g_id(name) которая возвращает id. Полученные данные сохраняются в БД. "
+"Если запись существует - результат игнорируется."
+
+#: evecli.sql_goods:5 of
+msgid "Goods name."
+msgstr "Название товара"
+
+#: evecli.sql_region:1 of
+msgid ""
+"The function of searching region for each item of the regions list. The "
+"internal function ``r_id(name)`` is called, which returns a response from"
+" ESI API with an region value. Writes this value to sqlite. If there is "
+"such a record in the database - ignore."
+msgstr ""
+"Функция поиска id региона в ESI API. Вызывается внутренняя функция "
+"r_id(name) которая возвращает id. Полученные данные сохраняются в БД. "
+"Если запись существует - результат игнорируется."
+
+#: ../../source/index.rst:19
+msgid "Indices and tables"
+msgstr "Индексы и таблицы"
+
+#: ../../source/index.rst:21
+msgid ":ref:`genindex`"
+msgstr ""
+
+#: ../../source/index.rst:22
+msgid ":ref:`modindex`"
+msgstr ""
+
+#: ../../source/index.rst:23
+msgid ":ref:`search`"
+msgstr ""
+
