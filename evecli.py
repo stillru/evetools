@@ -108,7 +108,7 @@ def orders(region, good):
     )
     orders = client.request(p)
     i = 0
-    while i < len(orders.data):
+    while i < len(orders.data): 
         c.execute('INSERT OR IGNORE INTO orders(volume_remain, type_id, order_id, issued, price, min_volume, is_buy_order, range, duration, volume_total, location_id, region_id) values (? , ? , ?, ? , ? , ? , ? , ? , ? , ? , ? , ?)', [orders.data[i].volume_remain, orders.data[i].type_id, orders.data[i].order_id, str(orders.data[i].issued), orders.data[i].price, orders.data[i].min_volume, orders.data[i].is_buy_order, orders.data[i].range, orders.data[i].duration, orders.data[i].volume_total, orders.data[i].location_id, a[0]])
         c.execute('UPDATE orders SET volume_remain = ?, type_id = ?, issued = ?, price = ?, min_volume = ?, is_buy_order = ?, range = ?, duration = ?, volume_total = ?, location_id = ?, region_id = ? WHERE order_id = ?', [orders.data[i].volume_remain, orders.data[i].type_id, str(orders.data[i].issued), orders.data[i].price, orders.data[i].min_volume, orders.data[i].is_buy_order, orders.data[i].range, orders.data[i].duration, orders.data[i].volume_total, orders.data[i].location_id, a[0], orders.data[i].order_id])
         i += 1
